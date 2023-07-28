@@ -1,0 +1,233 @@
+.car-window__section{
+    max-width: 100%;
+    /* min-height: 100vh; */
+    background-color: #F6F7F9;
+    display: flex;
+    flex-direction: column;
+    padding: 4%;
+    margin: 0;
+}
+
+.car-window__pictures{
+    max-height: 360px;
+    max-width: 592px;
+}
+
+.car-window__pictures_main-part{
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.car-window__main-picture{
+    max-width: 210px;
+    max-height: 230px;
+    padding: 20px 60px 20px 60px;
+    margin: auto;
+}
+
+.car-window__title{
+    padding-left: 20px;
+    max-width: 270px;
+    font-size: 16px;
+    text-align: left;
+}
+
+.car-window__subheader{
+    font-size: 12px;
+    margin-top: 0;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.car-window__other-pictures{
+    display: flex;
+    max-width: 100%;
+    justify-content: space-between;
+}
+
+
+.car-window__other-pictures .car-window__main-picture{
+    max-width: 95px; 
+    border-radius: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.car-window__description{
+    margin-top: 20px;
+    min-height: 320px;
+    max-width: 592px;
+    background-color: azure;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.car-window__description_header{
+    text-align: left;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+
+.car-window__description-ratings{
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    max-width: 170px;
+}
+
+.car-window__description-ratings_stars{
+    width: 70px;
+    height: 10px;
+    padding-top: 2px;
+}
+
+.car-window__description-ratings_count{
+    font-size: 12px;
+    color: var(--font-color-light-gray);
+    font-family: var(--font-family-jakarta);
+    font-weight: bold;
+}
+
+.car-window__description_content{
+    max-width: 280px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #545454;
+    font-family: var(--font-family-jakarta);
+    font-weight: 300;
+    text-align: justify;
+    line-height: 20px;
+}
+
+.car-window__description_feature{
+    display: grid;
+    grid-template-columns: 40% 40%;
+    column-gap: 40px;
+}
+
+.grid_cell{
+    display: flex;
+}
+
+
+.car-window__description_feature-name{
+    font-size: 12px;
+    color: var(--font-color-light-gray);
+    font-family: var(--font-family-jakarta);
+}
+
+.car-window__description_feature-value{
+    margin-left: 5px;
+    font-size: 12px;
+    font-family: var(--font-family-jakarta);
+}
+
+.car-window__day-rental-price{
+    font-size: 20px;
+    font-family: var(--font-family-jakarta);
+    font-weight: bold;
+}
+
+
+.car-window__rent{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.car-window_price-block{
+    display: flex;
+    padding-top: 16px;
+    align-content: center;
+}
+
+.main-window__car-rent_link{
+    background-color:#3563E9;
+    border-style: none;
+    border-radius: 5px;
+    width: 140px;
+    height: 56px;
+}
+
+@media(min-width: 731px){
+    .car-window__section{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .car-window__pictures{
+        margin-top: 40px;
+    }
+
+    .car-window__description{
+        margin-top: 0;
+        max-height: 320px;
+    }
+}
+
+/* Reviews */
+.car-window__reviews{
+    padding: 20px;
+}
+
+
+.reviews_stats{
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+.car-window__reviews_amount{
+    background-color: #3563E9;
+    border-radius: 15%;
+    color: #FFFFFF;
+    margin: 3px 0 0 5px;
+    padding: 2px;
+}
+
+.car-window__review_description{
+    display: flex;
+    justify-content: space-between;
+}
+
+.car-window__reviews_reviewer{
+    display: flex;
+    max-height: 40px;
+    align-items: center;
+}
+
+.car-window__reviews_reviewer-initials{
+    padding-left: 15px;
+    font-family: var(--font-family-jakarta);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.car-window__review_info{
+    display: flex;
+    margin: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: 60px;
+}
+
+.review_date{
+    margin: 0;
+}
+
+.car-window__review_content{
+    max-width: 680px;
+    /* margin: auto; */
+    margin: 10px 0 10px 60px;
+    text-align: justify;
+    font-family: var(--font-family-jakarta);
+}

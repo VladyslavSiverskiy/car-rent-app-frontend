@@ -1,0 +1,31 @@
+.car-add__section{
+    padding-bottom: 50px;
+    max-width: 560px;
+}
+
+.car-add_picture{
+    max-width: 150px;
+    padding: 20px 60px 20px 60px;
+}
+
+.car-add_header{
+    text-align: center;
+}
+
+.dropzone{
+    padding: 20px 0 20px 0;
+    background-color: rgb(227, 227, 227);
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    border-style: dashed;
+}
+
+.car-window__reviews{
+    background-color: #ffffff;
+    max-width: 800px;
+    min-height: 100px;
+    margin: 0 auto;
+    margin-bottom: 200px;
+    border-radius: 10px;
+}

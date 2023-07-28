@@ -1,0 +1,132 @@
+.main-window__section{
+    width: 100%;
+    padding-bottom: 80px;
+    background-color: #F6F7F9;
+}
+
+.main-window__car-list{
+    /* Переробити перше на мобільну версію */
+    padding: 50px 0 0 0;
+    display: grid;
+    row-gap: 20px;
+    grid-template-columns: 100%;
+}
+
+
+.main-window__car-card{
+    width: 304px;
+    min-height: 388px;
+    background-color: white;
+    border-radius: 10px;   
+    justify-self:center;
+    
+}
+
+.main-window__car-card_title{
+    display: flex;
+    justify-content: space-between;
+    padding: 24px;
+}
+
+.main-window__car-card_model{
+    font-family: var(--font-family-jakarta);
+    color: #1A202C;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+
+.main-window__car-card_category{
+    text-align: left;
+    color: #90A3BF;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+.main-window__car-car_picture{
+    height: 160px;
+    width: 224px;
+    margin-bottom: 10px 0 10px 0;
+}
+
+.main-window__car-card_stats{
+    display: flex;
+    justify-content: space-around;
+    padding: 0 12px;
+}
+
+.main-window__car-card_stat-param{
+    display: flex;
+    align-items: center;
+}
+
+.main-window__car-card_stat-param img{
+    margin-right: 5px;
+}
+
+.main-window__car-card_fuel-consumption{
+    font-family: var(--font-family-jakarta);
+    font-size: 14px;
+    color:  #90A3BF;
+}
+
+
+.main-window__car-rent_price{
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+
+.main-window__car-rent{
+    display: flex;
+    justify-content: space-between;
+    padding: 24px;
+}
+
+
+p.main-window__car-card_category{
+    margin: 0;
+}
+
+
+p.main-window__car-card_model{
+    margin: 0;
+}
+
+.main-window__car-rent_button{
+    width: 116px;
+    height: 44px;
+    font-family: var(--font-family-jakarta);
+    font-weight: bold;
+    background-color: #3563E9;
+    border-radius: 5px;
+    border-style: none;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.main-window__car-rent_link{
+    color: #ffffff;
+    font-family: var(--font-family-jakarta);
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+@media(min-width: 768px){
+    .main-window__car-list{
+        /* Переробити перше на мобільну версію */
+        grid-template-columns: 50% 50%;
+    }
+}
+
+
+@media(min-width: 1000px){
+    .main-window__car-list{
+        /* Переробити перше на мобільну версію */
+        grid-template-columns: 25% 25% 25% 25%;
+    }
+}

@@ -1,0 +1,10 @@
+.error{
+    background-color: #ffffff;
+    padding-top: 100px;
+}
+
+.error-header{
+    font-family: var(--font-family-jakarta);
+    font-weight: bold;
+    font-size: 24px;
+}
