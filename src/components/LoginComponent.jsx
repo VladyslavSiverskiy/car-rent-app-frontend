@@ -3,7 +3,7 @@ import './styles/CarRentalApp.css';
 import './styles/Forms.css';
 import { signIn, signUp } from './api/CarApiService';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './security/AuthContext';
 import Cookies from 'js-cookie';
 
@@ -79,6 +79,7 @@ export default function LoginComponent() {
                         <div>
                             <button className='btn btn-succes' type='submit'>Sign in</button>
                         </div>
+                        <Link to="/signup">I haven`t created account yet</Link>
                     </Form>
                 )
             }

@@ -1,8 +1,10 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import './styles/CarStyles.css';
+import './styles/OrderWindow.css';
 import { useEffect, useState } from 'react';
 import { downloadCarPicture, retrieveCarById } from './api/CarApiService';
 import { useAuth } from './security/AuthContext';
+import { DatePicker } from '@mui/x-date-pickers';
 
 export default function CarComponent() {
     const params = useParams();
@@ -11,6 +13,8 @@ export default function CarComponent() {
     console.log(auth.isAuthenticated);
     const [carData, setCarData] = useState({});
     const [mainPicture, setMainPicture] = useState(null);
+    const [orderWindowOpened, setOrderWindowOpened] = useState(false);
+
 
     useEffect(() => {
         if (params.carId) {
@@ -28,7 +32,13 @@ export default function CarComponent() {
         }
     }, [params.carId]);
 
+    const redirectToLogin = (e) => {
+        navigate('/login');
+    }
 
+    const openOrderWindow = () => {
+        setOrderWindowOpened(true);
+    }
 
     return (
         <div className="container">
@@ -103,11 +113,11 @@ export default function CarComponent() {
                             </div>
                         </div>
                         {auth.isAuthenticated ? (
-                        <button className="main-window__car-rent_link">
+                        <button className="main-window__car-rent_link" onClick={openOrderWindow}>
                             Rent car
                         </button>
                         ) : (
-                        <p>Please sign in to rent a car.</p>
+                        <p className='car-window__car-rent_sign-in' onClick={redirectToLogin}>Please sign in to rent a car.</p>
                         )}
                     </div>
                 </div>
@@ -133,5 +143,9 @@ export default function CarComponent() {
                 We are very happy with the service from the MORENT App. Morent has a low price and also a large variety of cars with good and comfortable facilities. In addition, the service provided by the officers is also very friendly and very polite.
                 </div>
             </div>
+            {orderWindowOpened && 
+            <div className="order-window">
+                <div className="order-window__content"></div>
+            </div>}
         </div>)
 }

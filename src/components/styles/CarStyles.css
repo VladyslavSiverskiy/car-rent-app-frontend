@@ -231,3 +231,14 @@
     text-align: justify;
     font-family: var(--font-family-jakarta);
 }
+
+.car-window__car-rent_sign-in{
+    border-style: dashed;
+    border-color: var(--font-color-light-gray);
+    border-width: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: var(--font-color-light-gray);
+    font-weight: bold;
+    max-width: 140px;
+}

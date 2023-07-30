@@ -1,0 +1,24 @@
+.order-window{
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #ffffff8a;
+    /* position: relative; */
+    z-index: 1000000;
+}
+
+.order-window__content{
+    width: 800px;
+    height: 500px;
+    background-color: #ffffff;
+    margin: auto;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: #e8e8e8;
+    margin-top: 50px;
+   
+}
