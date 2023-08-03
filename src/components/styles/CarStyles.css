@@ -242,3 +242,48 @@
     font-weight: bold;
     max-width: 140px;
 }
+
+.order-window__content{
+    padding: 0 50px 0 50px;
+}
+
+.order-window__date_pickers{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.order-window__date_pickers p{
+    text-align: left;
+}
+
+.order-window__close{
+    text-align: right;
+    font-weight: bold;
+    font-size: 36px;
+    cursor: pointer;
+    color: #0e2d8b;
+    margin-bottom: 0;
+}
+
+.order-window__title{
+    margin-top: 0;
+}
+
+.order-window__actions{
+    display: flex;
+    justify-content: space-between;
+}
+
+.vertical-line{
+    min-width: 2px;
+    min-height: 100%;
+    background-color: #b9b9b9;
+}
+
+.order-window__rent-sum{
+    border-color: #545454;
+    border-style: solid;
+    border-radius: 5px;
+    width: 40%;
+}

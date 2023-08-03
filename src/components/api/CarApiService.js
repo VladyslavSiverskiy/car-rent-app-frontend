@@ -9,10 +9,6 @@ export function retrieveCarList(){
    return springClient.get('/public/cars')
 }
 
-
-/** 
- * Admin 
-*/
 export function retrieveCarById(carId){
    return springClient.get(`/public/cars/${carId}`);
 }

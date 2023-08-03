@@ -43,6 +43,7 @@ export default function MainPageComponent() {
 
   function successfulResponse(response) {
     if (response != null) {
+      console.log(response.data);
       setCarArray(response.data);
 
     }
@@ -60,6 +61,7 @@ export default function MainPageComponent() {
   return (<div className="main-window__section">
     <div className="main-window__car-list container">
       {carArr.map(car => {
+        console.log(car);
         const byteArr = carPictures[car.carId];
         return (
           <div key={car.carId} className='main-window__car-card'>

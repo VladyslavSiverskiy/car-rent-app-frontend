@@ -1,26 +1,29 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import './styles/CarStyles.css';
 import './styles/OrderWindow.css';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { downloadCarPicture, retrieveCarById } from './api/CarApiService';
 import { useAuth } from './security/AuthContext';
-import { DatePicker } from '@mui/x-date-pickers';
+import { DatePicker, DateTimeField, MobileDateTimePicker, StaticDateTimePicker } from '@mui/x-date-pickers';
+import dayjs, { Dayjs } from 'dayjs';
 
 export default function CarComponent() {
     const params = useParams();
     const auth = useAuth();
     const navigate = useNavigate();
-    console.log(auth.isAuthenticated);
     const [carData, setCarData] = useState({});
     const [mainPicture, setMainPicture] = useState(null);
     const [orderWindowOpened, setOrderWindowOpened] = useState(false);
-
+    const [lastDate, setLastDate] = useState(dayjs('2022-04-17T15:30'));
+    const [fromDate, setFromDate] = useState(dayjs())
 
     useEffect(() => {
         if (params.carId) {
             retrieveCarById(params.carId)
                 .then((resp) => {
                     setCarData(resp.data);
+                    // setLastDate(resp.data.);
+                    setLastDate(dayjs(resp.data.availableTo));
                 })
                 .catch((error) => {
                     console.log('Error fetching car data: ', error);
@@ -38,6 +41,12 @@ export default function CarComponent() {
 
     const openOrderWindow = () => {
         setOrderWindowOpened(true);
+        document.body.style.overflow = 'hidden';
+    }
+
+    const closeOrderWindow = () => {
+        setOrderWindowOpened(false);
+        document.body.style.overflow = 'auto';
     }
 
     return (
@@ -113,11 +122,11 @@ export default function CarComponent() {
                             </div>
                         </div>
                         {auth.isAuthenticated ? (
-                        <button className="main-window__car-rent_link" onClick={openOrderWindow}>
-                            Rent car
-                        </button>
+                            <button className="main-window__car-rent_link" onClick={openOrderWindow}>
+                                Rent car
+                            </button>
                         ) : (
-                        <p className='car-window__car-rent_sign-in' onClick={redirectToLogin}>Please sign in to rent a car.</p>
+                            <p className='car-window__car-rent_sign-in' onClick={redirectToLogin}>Please sign in to rent a car.</p>
                         )}
                     </div>
                 </div>
@@ -129,7 +138,7 @@ export default function CarComponent() {
                 </div>
                 <div className="car-window__review_description">
                     <div className="car-window__reviews_reviewer">
-                        <img src="/img/icons/profil.png" alt="ava" className="car-window__reviews_reviewer-avatar"/>
+                        <img src="/img/icons/profil.png" alt="ava" className="car-window__reviews_reviewer-avatar" />
                         <div className="car-window__reviews_reviewer-initials">
                             Alex Santon
                         </div>
@@ -140,12 +149,46 @@ export default function CarComponent() {
                     </div>
                 </div>
                 <div className="car-window__review_content">
-                We are very happy with the service from the MORENT App. Morent has a low price and also a large variety of cars with good and comfortable facilities. In addition, the service provided by the officers is also very friendly and very polite.
+                    We are very happy with the service from the MORENT App. Morent has a low price and also a large variety of cars with good and comfortable facilities. In addition, the service provided by the officers is also very friendly and very polite.
                 </div>
             </div>
-            {orderWindowOpened && 
-            <div className="order-window">
-                <div className="order-window__content"></div>
-            </div>}
+            {orderWindowOpened &&
+                <div className="order-window">
+                    <div className="order-window__content">
+                        <p className="order-window__close" onClick={closeOrderWindow}>X</p>
+                        <h2 className='order-window__title'>Rent Car</h2>
+                        <div className="order-window__actions">
+                            <div className="order-window__date_pickers">
+                                <p>From:</p>
+                                <DateTimeField
+                                    value={fromDate}
+                                    onChange={(newDate) => setFromDate(newDate)}
+                                    format="LLL"
+                                />
+                                {/* if car is already ordered, make this field disabled with max date of orde */}
+                                <p>To:</p>
+
+                                <DateTimeField
+                                    value={lastDate}
+                                    onChange={(newDate) => {
+                                        if(lastDate.diff(dayjs(newDate)) < 0){
+                                            setLastDate(dayjs(lastDate));
+                                        }else{
+                                            const days = dayjs(lastDate.diff(fromDate)).day();
+                                            console.log(dayjs(lastDate.diff(fromDate)).$D);
+                                            console.log(days);
+                                            setLastDate(newDate);
+                                        }
+                                    }}
+                                    format="LLL"
+                                />
+                            </div>
+                            <div className="vertical-line"></div>
+                            <div className="order-window__rent-sum">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>}
         </div>)
 }
