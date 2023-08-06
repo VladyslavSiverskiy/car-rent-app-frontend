@@ -2,10 +2,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import './styles/CarStyles.css';
 import './styles/OrderWindow.css';
 import React, { useEffect, useState } from 'react';
-import { downloadCarPicture, retrieveCarById } from './api/CarApiService';
+import { downloadCarPicture, payForOrder, retrieveCarById } from './api/CarApiService';
 import { useAuth } from './security/AuthContext';
 import { DatePicker, DateTimeField, MobileDateTimePicker, StaticDateTimePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
+import { calculatePayment } from './api/CarPayment';
 
 export default function CarComponent() {
     const params = useParams();
@@ -16,14 +17,18 @@ export default function CarComponent() {
     const [orderWindowOpened, setOrderWindowOpened] = useState(false);
     const [lastDate, setLastDate] = useState(dayjs('2022-04-17T15:30'));
     const [fromDate, setFromDate] = useState(dayjs())
+    const [toDate, setToDate] = useState(dayjs())
+    const [toPay, setToPay] = useState(0.00);
 
     useEffect(() => {
         if (params.carId) {
             retrieveCarById(params.carId)
                 .then((resp) => {
                     setCarData(resp.data);
-                    // setLastDate(resp.data.);
                     setLastDate(dayjs(resp.data.availableTo));
+                    setToDate(dayjs(resp.data.availableTo));
+                    const rentHours = lastDate.diff(dayjs(fromDate), 'hours')
+                    setToPay(calculatePayment(carData.dayRentalPrice, rentHours));
                 })
                 .catch((error) => {
                     console.log('Error fetching car data: ', error);
@@ -41,12 +46,21 @@ export default function CarComponent() {
 
     const openOrderWindow = () => {
         setOrderWindowOpened(true);
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
         document.body.style.overflow = 'hidden';
+
     }
 
     const closeOrderWindow = () => {
         setOrderWindowOpened(false);
         document.body.style.overflow = 'auto';
+    }
+
+    const doPay = () => {
+        const amountData = { "totalAmount": toPay }
+        console.log(amountData);
+        payForOrder(amountData).then(res => window.location.href = res.data);
     }
 
     return (
@@ -169,15 +183,21 @@ export default function CarComponent() {
                                 <p>To:</p>
 
                                 <DateTimeField
-                                    value={lastDate}
+                                    value={toDate}
                                     onChange={(newDate) => {
-                                        if(lastDate.diff(dayjs(newDate)) < 0){
-                                            setLastDate(dayjs(lastDate));
-                                        }else{
-                                            const days = dayjs(lastDate.diff(fromDate)).day();
-                                            console.log(dayjs(lastDate.diff(fromDate)).$D);
-                                            console.log(days);
-                                            setLastDate(newDate);
+                                        if (lastDate.diff(dayjs(newDate)) < 0) {
+                                            setToDate(dayjs(lastDate));
+                                        } else if (newDate.diff(dayjs(fromDate)) < 0) {
+                                            setToDate(dayjs(toDate));
+                                        } else {
+                                            // const days = dayjs(newDate.diff(fromDate)).day();
+                                            const rentHours = newDate.diff(dayjs(fromDate), 'hours')
+                                            console.log(rentHours);
+                                            // console.log(dayjs(lastDate.diff(fromDate)).$D);
+                                            // console.log(days);
+                                            setToDate(newDate)
+                                            //set toDate
+                                            setToPay(calculatePayment(carData.dayRentalPrice, rentHours));
                                         }
                                     }}
                                     format="LLL"
@@ -185,7 +205,11 @@ export default function CarComponent() {
                             </div>
                             <div className="vertical-line"></div>
                             <div className="order-window__rent-sum">
-
+                                <h3 className="order-window__to-pay">
+                                    To pay:
+                                </h3>
+                                <p className='order-window__to-pay_currency'>{toPay.toLocaleString(undefined, { maximumFractionDigits: 2 })}$</p>
+                                <button onClick={doPay}>PayPal check</button>
                             </div>
                         </div>
                     </div>

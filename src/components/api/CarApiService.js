@@ -105,3 +105,10 @@ export const downloadCarPicture = async (carId) => {
        throw e;
    }
 }
+
+
+// PAYMENT
+
+export const payForOrder = async (amountData) => {
+   return springClient.post(`/public/orders/create`, amountData);
+}
