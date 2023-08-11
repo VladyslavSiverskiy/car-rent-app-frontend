@@ -116,6 +116,16 @@ p.main-window__car-card_model{
     text-decoration: none;
 }
 
+.main-window__car-card_like:hover{
+    cursor: pointer;
+ 
+}
+
+.main-window__car-card_like.sel{
+    width: 22px;
+    height: 55px;
+}
+
 @media(min-width: 768px){
     .main-window__car-list{
         /* Переробити перше на мобільну версію */

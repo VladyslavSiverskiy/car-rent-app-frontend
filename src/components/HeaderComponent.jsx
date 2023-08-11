@@ -1,16 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './styles/Header.css';
 import { useState } from "react";
 import { useAuth } from "./security/AuthContext";
 
 
 function ProfileModalComponent() {
+    const auth = useAuth();
+    const navigate = useNavigate();
+    function handleLinkClick(e) {
+        if (e.target.text == "Logout") {
+            auth.logout();
+        }
+    }
+
+    const navigateToLikes = () => {
+        navigate(`/user/${auth.userData.id}/likes`)
+    }
+
     return (<div className="profile-modal">
-        <Link className="profile-modal__menu-item" to="/likes">Likes</Link>
-        <Link className="profile-modal__menu-item" to="/notifications">Notifications</Link>
-        <Link className="profile-modal__menu-item" to="/stats">Statistics</Link>
-        <Link className="profile-modal__menu-item" to="/settings">Profile settings</Link>
-        <Link className="profile-modal__menu-item" to="/logout">Logout</Link>
+        <Link onClick={navigateToLikes} className="profile-modal__menu-item">
+                    <img src={"/img/icons/heart.svg"} alt='likes' />
+        </Link>
+        <Link onClick={handleLinkClick} className="profile-modal__menu-item" to="/stats">Statistics</Link>
+        <Link onClick={handleLinkClick} className="profile-modal__menu-item" to="/settings">Profile settings</Link>
+        <Link onClick={handleLinkClick} className="profile-modal__menu-item" to="/logout">Logout</Link>
     </div>)
 }
 
@@ -25,7 +38,6 @@ function BurgerMenuComponent() {
 
 
     function closeModal(setIsActive) {
-
         // console.log(setIsActive);
         // console.log('hEl');
         // const element = document.querySelector("mobile-menu");
@@ -49,15 +61,14 @@ function BurgerMenuComponent() {
 function UserProfileComponent({ value, closeModal }) {
     const auth = useAuth();
     let isAuthenticated = auth.isAuthenticated;
+    const navigate = useNavigate();
     const [isProfileModalShown, setProfileModalShown] = useState(false);
 
     function changeModalState() {
         setProfileModalShown(!isProfileModalShown);
     }
 
-
-    console.log(closeModal);
-    function handleLinkClick() {
+    function handleLinkClick(e) {
         if (closeModal != undefined) {
             const element = document.querySelector(".mobile-menu");
             element.classList.add('hide');
@@ -65,17 +76,31 @@ function UserProfileComponent({ value, closeModal }) {
             burger.classList.remove('active-burger');
             document.body.style.overflow = 'auto';
         }
+
+        if (e.target.text == "Logout") {
+            auth.logout();
+        }
     }
 
 
+    const navigateToOrders = () => {
+        navigate(`/user/${auth.userData.id}/orders`);
+    }
+
+    const navigateToLikes = () => {
+        navigate(`/user/${auth.userData.id}/likes`)
+    }
+
     if (isAuthenticated) {
+
         return (
             <div className='header__user-tools'>
-                <div className="header__user-tool_likes">
+                <div onClick={navigateToLikes} className="header__user-tool_likes">
                     <img src={"/img/icons/heart.svg"} alt='likes' />
                 </div>
-                <div className="header__user-tool_likes">
-                    <img src={"/img/icons/notifications.svg"} alt='messages' />
+
+                <div className="header__user-tool_likes" onClick={navigateToOrders}>
+                    <img className="orders-picture" src={"/img/icons/orders.png"} alt='orders' />
                 </div>
                 <div className="header__user-tool_likes">
                     <img src={"/img/icons/settings.svg"} alt='settings' />
@@ -86,8 +111,9 @@ function UserProfileComponent({ value, closeModal }) {
 
                 {isProfileModalShown && <ProfileModalComponent></ProfileModalComponent>}
                 {value != undefined && closeModal != undefined && value.isActive && <div className="profile-modal-mobile">
-                    <Link onClick={handleLinkClick} className="profile-modal-mobile__menu-item" to="/likes">Likes</Link>
-                    <Link onClick={handleLinkClick} className="profile-modal-mobile__menu-item" to="/notifications">Notifications</Link>
+                <div onClick={navigateToLikes} className="header__user-tool_likes">
+                    <img src={"/img/icons/heart.svg"} alt='likes' />
+                </div>
                     <Link onClick={handleLinkClick} className="profile-modal-mobile__menu-item" to="/stats">Statistics</Link>
                     <Link onClick={handleLinkClick} className="profile-modal-mobile__menu-item" to="/settings">Profile settings</Link>
                     <Link onClick={handleLinkClick} className="profile-modal-mobile__menu-item" to="/logout">Logout</Link>

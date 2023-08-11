@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkAdminState, signUpRequest } from "../api/CarApiService";
+import { checkAdminState, getUserProfile, signUpRequest } from "../api/CarApiService";
 import Cookies from "js-cookie";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 export const AuthContext = createContext();
 
@@ -10,11 +11,22 @@ export const useAuth = () => useContext(AuthContext);
 //2.Share context
 export function AuthProvider({children}){ // childern - всі компоненти всередині AuthProvider
     //3.Set state in the context
+    // 
+    // const cookiesUserData = await getUserProfile();
+    // const userDataInitialyState = cookiesUserData ? JSON.parse(cookiesUserData) : null; 
+    const [userData, setUserData] = useState(null);
     const [isAuthenticated, setAuthenticated] = useState(false); 
     const [jwtToken, setJwtToken] = useState("");
     const [isAdmin, setIsAdmin] = useState(Cookies.get('isAdmin'));
+   
+    function saveUserProfile(){
+        getUserProfile(jwtToken)
+            .then(response => setUserData(response.data))
+            .catch(err => console.log(err));
+    }
+
+
     useEffect(() => getToken(), []); 
-    
     async function checkAdmin(){
         if((await checkAdminState()).status == 200){
             setIsAdmin(true);
@@ -25,6 +37,18 @@ export function AuthProvider({children}){ // childern - всі компонен�
         }
     }
 
+    // if(!userData && jwtToken){
+    //     console.log(userData);
+    //     getUserProfile(jwtToken)
+    //             .then(resp => {
+    //                 console.log('Here')
+    //                 console.log(resp);
+    //                 Cookies.set('userData', JSON.stringify(resp.data))
+    //                 setUserData(resp.data)   
+    //             })
+    //             .catch(err => console.log(err));
+    // }
+
     function getToken(){
         const token = Cookies.get('jwt');
         if(token != undefined){
@@ -33,25 +57,22 @@ export function AuthProvider({children}){ // childern - всі компонен�
         }
     }
 
-    // function login(username, password){
-    //     if(username === 'admin' && password === 'admin'){
-    //         setAuthenticated(true);
-    //         return true;
-    //     }else{
-    //         setAuthenticated(false);
-    //         return false;
-    //     }
-    // }
-
     function logout(){    
         setAuthenticated(false);
         setIsAdmin(false);
-        Cookies.remove('jwt', { path: '/' })
-        Cookies.remove('isAdmin', { path: '/' })
+        setUserData(null);
+        console.log("DELETE");
+        Cookies.remove('jwt', { path: '/' });
+        Cookies.remove('isAdmin', { path: '/' });
+        // Cookies.remove('userData', { path: '/'});
+    }
+
+    if(!userData && isAuthenticated){
+        saveUserProfile();
     }
 
     return(
-        <AuthContext.Provider value={{isAuthenticated, setAuthenticated, logout, jwtToken, setJwtToken, isAdmin, checkAdmin}}>
+        <AuthContext.Provider value={{isAuthenticated, setAuthenticated, logout, saveUserProfile, jwtToken, setJwtToken, isAdmin, checkAdmin, userData, setUserData}}>
             {children}
         </AuthContext.Provider>
     )

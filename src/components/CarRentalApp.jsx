@@ -10,9 +10,9 @@ import LogoutComponent from "./LogoutComponent";
 import LoginComponent from "./LoginComponent";
 import AddCarComponent from "./AddCarComponent";
 import SignUpComponent from "./SignUpComponent";
-import { checkAdminState, retrieveCarList } from "./api/CarApiService";
-import { useState } from "react";
 import ErrorBoundary from "./ErrorBoundary";
+import OrdersComponent from "./OrdersComponent";
+import LikesComponent from "./LikesComponent";
 
 
 function AuthenticatedRoute({ children }) {
@@ -34,10 +34,6 @@ function AdminAuthenticatedRoute({ children }) {
     }
 }
 
-function TestComponent() {
-    return (<div>Can rent!</div>)
-}
-
 
 function AccessForbiddenComponent() {
     return <div>403 Access Forbidden</div>
@@ -53,11 +49,18 @@ export default function CarRentalApp() {
                     <Routes>
                         <Route path='/' element={<MainPageComponent></MainPageComponent>}></Route>
                         <Route path='/cars/:carId' element={<CarComponent></CarComponent>}></Route>
-                        <Route path='/cars/:carId/rent' element={
+                        <Route path='/user/:userId/orders' element={
                             <AuthenticatedRoute>
-                                <TestComponent></TestComponent>
+                                <OrdersComponent></OrdersComponent>
                             </AuthenticatedRoute>}>
                         </Route>
+
+                        <Route path='/user/:userId/likes' element={
+                            <AuthenticatedRoute>
+                                <LikesComponent></LikesComponent>
+                            </AuthenticatedRoute>}>
+                        </Route>
+
 
                         <Route path='/admin/cars' element={
                             <AdminAuthenticatedRoute>

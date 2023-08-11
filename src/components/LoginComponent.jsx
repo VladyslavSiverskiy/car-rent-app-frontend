@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import './styles/CarRentalApp.css';
 import './styles/Forms.css';
-import { signIn, signUp } from './api/CarApiService';
+import { getUserProfile, signIn, signUp } from './api/CarApiService';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './security/AuthContext';
@@ -24,7 +24,18 @@ export default function LoginComponent() {
         signIn(dataToSend)
             .then(resp => {
                 if (resp.data != null || resp.data != undefined) {
-                    successLogin(resp.data.jwt)
+                    const jwt = resp.data.jwt;
+                    successLogin(jwt);
+                    getUserProfile(jwt)
+                        .then(respUser => {
+                            // console.log(respUser)
+                            // Cookies.set('userData', JSON.stringify(respUser.data));
+                            // Cookies.set('test', "Tests");
+                
+                            auth.setUserData(respUser.data);
+                        })
+                        .catch(err => console.log(err));
+                    
                 }
             })
             .catch(err => loginFailed(err));

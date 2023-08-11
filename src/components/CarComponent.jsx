@@ -1,11 +1,11 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './styles/CarStyles.css';
 import './styles/OrderWindow.css';
 import React, { useEffect, useState } from 'react';
 import { downloadCarPicture, payForOrder, retrieveCarById } from './api/CarApiService';
 import { useAuth } from './security/AuthContext';
-import { DatePicker, DateTimeField, MobileDateTimePicker, StaticDateTimePicker } from '@mui/x-date-pickers';
-import dayjs, { Dayjs } from 'dayjs';
+import { DateTimeField } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
 import { calculatePayment } from './api/CarPayment';
 
 export default function CarComponent() {
@@ -15,10 +15,13 @@ export default function CarComponent() {
     const [carData, setCarData] = useState({});
     const [mainPicture, setMainPicture] = useState(null);
     const [orderWindowOpened, setOrderWindowOpened] = useState(false);
-    const [lastDate, setLastDate] = useState(dayjs('2022-04-17T15:30'));
+    const [lastDate, setLastDate] = useState(dayjs());
     const [fromDate, setFromDate] = useState(dayjs())
     const [toDate, setToDate] = useState(dayjs())
     const [toPay, setToPay] = useState(0.00);
+
+    const [firstDay, setFirstDay] = useState(dayjs());
+
 
     useEffect(() => {
         if (params.carId) {
@@ -27,8 +30,7 @@ export default function CarComponent() {
                     setCarData(resp.data);
                     setLastDate(dayjs(resp.data.availableTo));
                     setToDate(dayjs(resp.data.availableTo));
-                    const rentHours = lastDate.diff(dayjs(fromDate), 'hours')
-                    setToPay(calculatePayment(carData.dayRentalPrice, rentHours));
+                   
                 })
                 .catch((error) => {
                     console.log('Error fetching car data: ', error);
@@ -45,10 +47,13 @@ export default function CarComponent() {
     }
 
     const openOrderWindow = () => {
+        console.log(auth.userData)
         setOrderWindowOpened(true);
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
         document.body.style.overflow = 'hidden';
+        const rentHours = lastDate.diff(dayjs(fromDate), 'hours')
+        setToPay(calculatePayment(carData.dayRentalPrice, rentHours));
 
     }
 
@@ -58,9 +63,8 @@ export default function CarComponent() {
     }
 
     const doPay = () => {
-        const amountData = { "totalAmount": toPay }
-        console.log(amountData);
-        payForOrder(amountData).then(res => window.location.href = res.data);
+        const orderData = { "totalAmount": toPay, "rentFrom" : fromDate, "rentTo": toDate, carId: carData.carId, userId: auth.userData.id};
+        payForOrder(orderData).then(res => window.location.href = res.data.approvalLink);
     }
 
     return (
@@ -176,12 +180,18 @@ export default function CarComponent() {
                                 <p>From:</p>
                                 <DateTimeField
                                     value={fromDate}
-                                    onChange={(newDate) => setFromDate(newDate)}
+                                    onChange={(newDate) => {
+                                        if(newDate.diff(dayjs(firstDay)) < 0){
+                                            setFromDate(dayjs(firstDay));
+                                        }else if(lastDate.diff(dayjs(newDate)) < 0){
+                                            setFromDate(dayjs(lastDate));
+                                        }else{
+                                            setFromDate(newDate);
+                                        }
+                                    }}
                                     format="LLL"
                                 />
-                                {/* if car is already ordered, make this field disabled with max date of orde */}
                                 <p>To:</p>
-
                                 <DateTimeField
                                     value={toDate}
                                     onChange={(newDate) => {
@@ -190,13 +200,8 @@ export default function CarComponent() {
                                         } else if (newDate.diff(dayjs(fromDate)) < 0) {
                                             setToDate(dayjs(toDate));
                                         } else {
-                                            // const days = dayjs(newDate.diff(fromDate)).day();
                                             const rentHours = newDate.diff(dayjs(fromDate), 'hours')
-                                            console.log(rentHours);
-                                            // console.log(dayjs(lastDate.diff(fromDate)).$D);
-                                            // console.log(days);
                                             setToDate(newDate)
-                                            //set toDate
                                             setToPay(calculatePayment(carData.dayRentalPrice, rentHours));
                                         }
                                     }}
@@ -209,7 +214,8 @@ export default function CarComponent() {
                                     To pay:
                                 </h3>
                                 <p className='order-window__to-pay_currency'>{toPay.toLocaleString(undefined, { maximumFractionDigits: 2 })}$</p>
-                                <button onClick={doPay}>PayPal check</button>
+                                <button className='pay-pal-button' onClick={doPay}>Pay<p className='pay-pal_style'>Pal</p></button>
+                                <p className='pay-pal-info'>Clicking this, you will be refer to PayPal service. You also able to find this link later in your list of orders</p>
                             </div>
                         </div>
                     </div>
