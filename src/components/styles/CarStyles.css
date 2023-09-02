@@ -4,13 +4,13 @@
     background-color: #F6F7F9;
     display: flex;
     flex-direction: column;
-    padding: 4%;
+    padding: 50px 0 50px 0;
     margin: 0;
 }
 
 .car-window__pictures{
     max-height: 360px;
-    max-width: 592px;
+    
 }
 
 .car-window__pictures_main-part{
@@ -26,8 +26,21 @@
 .car-window__main-picture{
     max-width: 210px;
     max-height: 230px;
-    padding: 20px 60px 20px 60px;
     margin: auto;
+}
+
+.car-window__will-be-soon{
+    margin-top: 20px;
+    max-width: 400;
+    max-height: 128px;
+    width: 100%;
+    height: 100%;
+    background-color: #efefef;
+    border-radius: 10px;
+    border-style: dotted;
+    font-weight: bold;
+    padding-top: 12%;
+    vertical-align: middle;
 }
 
 .car-window__title{
@@ -109,6 +122,7 @@
     display: grid;
     grid-template-columns: 40% 40%;
     column-gap: 40px;
+    margin-top: 10px;
 }
 
 .grid_cell{
@@ -165,7 +179,8 @@
     }
 
     .car-window__pictures{
-        margin-top: 40px;
+        min-height: 100%;
+        width: 50%;
     }
 
     .car-window__description{
@@ -176,7 +191,7 @@
 
 /* Reviews */
 .car-window__reviews{
-    padding: 20px;
+    padding: 30px;
 }
 
 
@@ -184,6 +199,7 @@
     display: flex;
     align-content: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .car-window__reviews_amount{
@@ -230,6 +246,12 @@
     margin: 10px 0 10px 60px;
     text-align: justify;
     font-family: var(--font-family-jakarta);
+}
+
+.car-window__reviews_reviewer-avatar{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
 }
 
 .car-window__car-rent_sign-in{

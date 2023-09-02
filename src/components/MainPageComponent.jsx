@@ -7,7 +7,6 @@ import { useAuth } from './security/AuthContext';
 
 
 export default function MainPageComponent(props) {
-  console.log(props.isLikesWindow)
   const [carArr, setCarArray] = useState([]);
   useEffect(() => callRestApi(), []);
   const navigate = useNavigate();

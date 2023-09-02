@@ -1,0 +1,43 @@
+.profile-settings{
+    display: flex;
+    min-width: 100%;
+    justify-content: space-between;
+    flex-direction: column;
+    align-content: center;
+}
+
+.avatar-component{
+    width: 20%;
+    margin: auto;
+    padding-top: 40px;
+    position: relative;
+}
+
+.dropzone-avatar{
+    background-color: #0033ff;
+    background-size: cover;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    padding-top: 1px;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    left: 140px;
+    top: 110px;
+    position: absolute;
+}
+
+.profile-form{
+    margin: auto;
+    padding: 30px 0 0 0;
+    width: 75%;
+}
+
+.user-avatar_picture{
+    width: 88px;
+    height: 88px;
+    
+    border-radius: 100%;
+}

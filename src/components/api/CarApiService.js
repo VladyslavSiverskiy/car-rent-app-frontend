@@ -2,7 +2,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useAuth } from '../security/AuthContext';
 
-const springClient = axios.create({ baseURL: 'http://localhost:443/api/v1' });
+// const springClient = axios.create({ baseURL: 'http://localhost:8080/api/v1' });
+const springClient = axios.create({ baseURL: 'http://ec2-3-72-7-4.eu-central-1.compute.amazonaws.com:8080/api/v1' });
 
 
 export function retrieveCarList() {
@@ -54,10 +55,22 @@ export function updateCarInDatabase(carData) {
          Authorization: `Bearer ${jwtToken}`
       }
    };
-   console.log(carData);
    return springClient.put(`/admin/cars`, carData, config);
 }
 
+const config = {
+   headers: {
+      Authorization: `Bearer ${Cookies.get('jwt')}`
+   }
+}
+
+export const getAllOrders = async () => {
+   return springClient.get(`/admin/orders`, config);
+}
+
+export const submitOrderById = async (orderId) => {
+   return springClient.get(`/admin/orders/submit/${orderId}`, config);
+}
 //end admin 
 
 
@@ -82,8 +95,7 @@ export function signIn(signInData) {
 
 
 export const uploadCarPicture = async (formData, carId) => {
-   console.log(formData);
-   try {
+    try {
       const jwtToken = Cookies.get('jwt');
       return springClient.post(`/admin/cars/upload/${carId}`, formData,
          {
@@ -117,8 +129,6 @@ export const payForOrder = async (orderData) => {
    return springClient.post(`/user/orders/create`, orderData, config);
 }
 /////
-
-
 export const getUserProfile = async () => {
    const jwtToken = Cookies.get('jwt');
    const config = {
@@ -127,6 +137,16 @@ export const getUserProfile = async () => {
       }
    };
    return springClient.post(`/user/data`, jwtToken, config);
+}
+
+export const getUserById = async (userId) => {
+   const jwtToken = Cookies.get('jwt');
+   const config = {
+      headers: {
+         Authorization: `Bearer ${jwtToken}`
+      }
+   };
+   return springClient.get(`/user/data/${userId}`, config);
 }
 
 
@@ -141,7 +161,7 @@ export const getUserOrders = async (userId) => {
 }
 
 
-export const likeCarFromTheList = async(userId, carId) => {
+export const likeCarFromTheList = async (userId, carId) => {
    const jwtToken = Cookies.get('jwt');
    const config = {
       headers: {
@@ -162,7 +182,7 @@ export const getAllUserLikes = async (userId) => {
 
 }
 
-export const removeLikeFromTheList = async(userId, carId) => {
+export const removeLikeFromTheList = async (userId, carId) => {
    const jwtToken = Cookies.get('jwt');
    const config = {
       headers: {
@@ -172,3 +192,69 @@ export const removeLikeFromTheList = async(userId, carId) => {
    return springClient.get(`/user/${userId}/like-car/${carId}/delete`, config);
 }
 
+
+
+//USER AVATAR
+export const uploadUserAvatar = async (formData, userId) => {
+   try {
+      const jwtToken = Cookies.get('jwt');
+      return springClient.post(`/user/profile/avatar/${userId}`, formData,
+         {
+            headers: {
+               Authorization: `Bearer ${jwtToken}`,
+               'Content-Type': 'multipart/form-data'
+            }
+         });
+   } catch (e) {
+      return e;
+   }
+}
+
+export const downloadUserAvatar = async (userId) => {
+   try {
+     return springClient.get(`/public/profile/${userId}/avatar`);
+   } catch (e) {
+      throw e;
+   }
+}
+
+export const updateUserProfile = async (values) => {
+   try {
+      const jwtToken = Cookies.get('jwt');
+      const config = {
+         headers: {
+            Authorization: `Bearer ${jwtToken}`
+         }
+      };
+      return springClient.post(`/user/profile/update`, values, config)
+        
+   } catch (e) {
+      return e;
+   }
+}
+
+export const updateUserPassword = async (values) => {
+   try {
+      const jwtToken = Cookies.get('jwt');
+      const config = {
+         headers: {
+            Authorization: `Bearer ${jwtToken}`
+         }
+      };
+      return springClient.post(`/user/password/update`, values, config)
+        
+   } catch (e) {
+      return e;
+   }
+}
+
+
+export const saveComment = async (reviewData) => {
+   const jwtToken = Cookies.get('jwt');
+      const config = {
+         headers: {
+            Authorization: `Bearer ${jwtToken}`
+         }
+      }; 
+   return springClient.post(`/user/review`, reviewData, config);
+}

@@ -37,18 +37,6 @@ export function AuthProvider({children}){ // childern - всі компонен�
         }
     }
 
-    // if(!userData && jwtToken){
-    //     console.log(userData);
-    //     getUserProfile(jwtToken)
-    //             .then(resp => {
-    //                 console.log('Here')
-    //                 console.log(resp);
-    //                 Cookies.set('userData', JSON.stringify(resp.data))
-    //                 setUserData(resp.data)   
-    //             })
-    //             .catch(err => console.log(err));
-    // }
-
     function getToken(){
         const token = Cookies.get('jwt');
         if(token != undefined){

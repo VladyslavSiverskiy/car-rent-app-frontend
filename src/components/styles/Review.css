@@ -1,0 +1,30 @@
+.review__comment-field {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: left;
+    max-width: 800px;
+    margin: auto;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.review__title {
+    margin: 0;
+}
+
+.comment-form {
+    display: flex;
+    min-width: 100%;
+    margin-bottom: 10px;
+}
+
+.car-window__review_item {
+    margin-bottom: 40px;
+}
+
+.star-ratings{
+    margin-bottom: 20px;
+}

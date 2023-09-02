@@ -13,6 +13,8 @@ import SignUpComponent from "./SignUpComponent";
 import ErrorBoundary from "./ErrorBoundary";
 import OrdersComponent from "./OrdersComponent";
 import LikesComponent from "./LikesComponent";
+import UserInfoComponent from "./UserInfoComponent";
+import UpdatePasswordComponent from "./UpdatePasswordComponent";
 
 
 function AuthenticatedRoute({ children }) {
@@ -52,6 +54,18 @@ export default function CarRentalApp() {
                         <Route path='/user/:userId/orders' element={
                             <AuthenticatedRoute>
                                 <OrdersComponent></OrdersComponent>
+                            </AuthenticatedRoute>}>
+                        </Route>
+
+                        <Route path='/user/profile' element={
+                            <AuthenticatedRoute>
+                                <UserInfoComponent></UserInfoComponent>
+                            </AuthenticatedRoute>}>
+                        </Route>
+
+                        <Route path='/user/profile/password' element={
+                            <AuthenticatedRoute>
+                                <UpdatePasswordComponent></UpdatePasswordComponent>
                             </AuthenticatedRoute>}>
                         </Route>
 

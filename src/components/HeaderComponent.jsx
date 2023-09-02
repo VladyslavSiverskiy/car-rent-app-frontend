@@ -1,14 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import './styles/Header.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "./security/AuthContext";
+import { downloadUserAvatar } from "./api/CarApiService";
 
 
 function ProfileModalComponent() {
     const auth = useAuth();
     const navigate = useNavigate();
     function handleLinkClick(e) {
-        if (e.target.text == "Logout") {
+        if (e.target.text === "Logout") {
             auth.logout();
         }
     }
@@ -18,11 +19,9 @@ function ProfileModalComponent() {
     }
 
     return (<div className="profile-modal">
-        <Link onClick={navigateToLikes} className="profile-modal__menu-item">
-                    <img src={"/img/icons/heart.svg"} alt='likes' />
-        </Link>
+        <Link onClick={navigateToLikes} className="profile-modal__menu-item">Likes</Link>
         <Link onClick={handleLinkClick} className="profile-modal__menu-item" to="/stats">Statistics</Link>
-        <Link onClick={handleLinkClick} className="profile-modal__menu-item" to="/settings">Profile settings</Link>
+        <Link onClick={handleLinkClick} className="profile-modal__menu-item" to={`/user/profile`}>Profile settings</Link>
         <Link onClick={handleLinkClick} className="profile-modal__menu-item" to="/logout">Logout</Link>
     </div>)
 }
@@ -63,6 +62,20 @@ function UserProfileComponent({ value, closeModal }) {
     let isAuthenticated = auth.isAuthenticated;
     const navigate = useNavigate();
     const [isProfileModalShown, setProfileModalShown] = useState(false);
+
+    const [userAvatar, setUserAvatar] = useState();
+    useEffect(() => {
+        if(auth.userData){
+            downloadUserAvatar(auth.userData.id).then(resp => {
+                if(resp.data != null){
+                    setUserAvatar(resp.data);
+                } 
+            }).catch(err=>console.log(err));
+        }
+    }, [auth.userData]);
+
+
+
 
     function changeModalState() {
         setProfileModalShown(!isProfileModalShown);
@@ -105,9 +118,10 @@ function UserProfileComponent({ value, closeModal }) {
                 <div className="header__user-tool_likes">
                     <img src={"/img/icons/settings.svg"} alt='settings' />
                 </div>
-                <div onMouseEnter={changeModalState} className="header__user-tool_likes">
-                    <img src={"/img/icons/profil.png"} alt='profile' />
-                </div>
+                <Link onMouseEnter={changeModalState} className="header__user-tool_likes" to={`/user/profile`}>
+                    {!userAvatar && <img className="header-avatar_picture" src={"/img/icons/profil.png"} alt='profile'/>}
+                    {userAvatar && <img className="header-avatar_picture" src={`data:image/jpg;base64, ${userAvatar}`} alt="profile"></img>}
+                </Link>
 
                 {isProfileModalShown && <ProfileModalComponent></ProfileModalComponent>}
                 {value != undefined && closeModal != undefined && value.isActive && <div className="profile-modal-mobile">
@@ -115,7 +129,7 @@ function UserProfileComponent({ value, closeModal }) {
                     <img src={"/img/icons/heart.svg"} alt='likes' />
                 </div>
                     <Link onClick={handleLinkClick} className="profile-modal-mobile__menu-item" to="/stats">Statistics</Link>
-                    <Link onClick={handleLinkClick} className="profile-modal-mobile__menu-item" to="/settings">Profile settings</Link>
+                    <Link onClick={handleLinkClick} className="profile-modal-mobile__menu-item" to={`/user/profile`}>Profile settings</Link>
                     <Link onClick={handleLinkClick} className="profile-modal-mobile__menu-item" to="/logout">Logout</Link>
                 </div>}
             </div>
@@ -131,12 +145,16 @@ function UserProfileComponent({ value, closeModal }) {
 }
 
 export default function HeaderComponent() {
+    const auth = useAuth();
+    let isAuthenticated = auth.isAuthenticated;
+    let isAdmin = auth.isAdmin;
     return (
         <header>
             <div className="container header-wrapper">
                 <div>
                     <Link className="header__logo" to="/">RENTAL</Link>
                 </div>
+                {isAdmin && <Link to="/admin/cars">Admin</Link>}
                 <BurgerMenuComponent></BurgerMenuComponent>
                 <UserProfileComponent></UserProfileComponent>
             </div>

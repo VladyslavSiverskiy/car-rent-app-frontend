@@ -8,9 +8,9 @@ import { useAuth } from './security/AuthContext';
 import Cookies from 'js-cookie';
 
 export default function LoginComponent() {
-    let email = ''; 
+    let email = '';
     let password = '';
-    
+
     const [authError, setAuthError] = useState('');
     const navigate = useNavigate();
     const auth = useAuth();
@@ -31,11 +31,11 @@ export default function LoginComponent() {
                             // console.log(respUser)
                             // Cookies.set('userData', JSON.stringify(respUser.data));
                             // Cookies.set('test', "Tests");
-                
+
                             auth.setUserData(respUser.data);
                         })
                         .catch(err => console.log(err));
-                    
+
                 }
             })
             .catch(err => loginFailed(err));
@@ -73,7 +73,7 @@ export default function LoginComponent() {
             {
                 (props) => (
                     <Form className='auth-form'>
-                        
+
                         {authError != '' && <div className='alert'>{authError}</div>}
                         <ErrorMessage name='email' component='div' className='alert'></ErrorMessage>
                         <ErrorMessage name='password' component='div' className='alert'></ErrorMessage>

@@ -46,9 +46,9 @@
 
 
 .main-window__car-car_picture{
-    height: 160px;
-    width: 224px;
-    margin-bottom: 10px 0 10px 0;
+    max-height: 160px;
+    max-width: 224px;
+    margin: 10px 0 10px 0;
 }
 
 .main-window__car-card_stats{
@@ -128,7 +128,6 @@ p.main-window__car-card_model{
 
 @media(min-width: 768px){
     .main-window__car-list{
-        /* Переробити перше на мобільну версію */
         grid-template-columns: 50% 50%;
     }
 }
@@ -136,7 +135,6 @@ p.main-window__car-card_model{
 
 @media(min-width: 1000px){
     .main-window__car-list{
-        /* Переробити перше на мобільну версію */
-        grid-template-columns: 25% 25% 25% 25%;
+        grid-template-columns: 33% 33% 33%;
     }
 }

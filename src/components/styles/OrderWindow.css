@@ -12,7 +12,7 @@
 
 .order-window__content {
     max-width: 800px;
-    max-height: 500px;
+    min-height: 500px;
     background-color: #ffffff;
     margin: auto;
     border-style: solid;
@@ -26,7 +26,7 @@
 .order-window__date_pickers {
     display: flex;
     flex-direction: column;
-
+    align-content: center;
 }
 
 .order-window__date_pickers p {
@@ -49,20 +49,22 @@
 .order-window__actions {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
 }
 
 .vertical-line {
+    display: none;
     min-width: 2px;
     min-height: 100%;
     background-color: #e1e1e1;
 }
 
 .order-window__rent-sum {
-    border-color: #e1e1e1;
-    border-style: solid;
     border-radius: 5px;
-    max-width: 50%;
+    max-width: 100%;
     padding: 15px;
+    margin-top: 20px;
+    margin: auto;
 }
 
 .order-window__to-pay {
@@ -99,6 +101,8 @@
     color: #b0b0b0;
     font-size: 12px;
     text-align: left;
+    text-align: center;
+    margin-top: 4px;
 }
 
 .pay-pal_style{
@@ -106,4 +110,20 @@
     display: inline;
     font-weight: 900;
     margin-right: 50px;
+}
+
+@media (min-width: 568px) {
+    .order-window__actions {
+        flex-direction: row;
+    }
+
+    .order-window__rent-sum {
+        max-width: 45%;
+        border-color: #e1e1e1;
+        border-style: solid;
+    }
+
+    .order-window__date_pickers{
+        max-width: 45%;
+    }
 }
