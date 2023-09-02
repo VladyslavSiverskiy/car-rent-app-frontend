@@ -1,8 +1,43 @@
-# Getting Started with Create React App
+# Car Rental Application Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the Car Rental pet project! 
+This project aims to create a simple web application that allows users to rent cars online. 
+Client is a component of a larger application. The backend of this application is built using Java and provides the necessary APIs for user registration, car data retrieval, reservations, and more.
 
-## Available Scripts
+You can open [https://github.com/VladyslavSiverskiy/car-rental-project] to see backend part of project, which is written using spring boot v3.  
+
+This client side of project is deployed and hosted on AWS S3 bucket: [http://car-rental-frontend.s3-website.eu-central-1.amazonaws.com/]
+
+## Features
+<ul>
+  <li>User registration and authentication</li>
+  <li>Browse and search for available cars</li>
+  <li>View car details, including specifications and pricing</li>
+  <li>Leave comments about cars</li>
+  <li>Reserve and rent cars for specific dates</li>
+  <li>Pay for order using PayPal account (currently use PayPal test account)</li>
+  <li>Upload photos of cars and avatars</li>
+  <li>User dashboard to manage orders</li>
+  <li>Admin dashboard to manage cars and orders</li>
+</ul>
+
+## Installation
+
+### Connecting with backend side
+
+To run this project locally, firstly you should run java server or make sure that EC2 instance with java app is running.
+
+### Clone the repository 
+
+`git clone https://github.com/your-username/react-car-rental.git`
+
+### Navigate to the project directory:
+
+`cd react-car-rental`
+
+### Install the project dependencies:
+
+`npm install`
 
 In the project directory, you can run:
 
@@ -29,42 +64,4 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Demo 
